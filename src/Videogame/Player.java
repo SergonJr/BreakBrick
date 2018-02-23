@@ -1,20 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Videogame;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- *
- * @author antoniomejorado
+ * Player
+ * 
+ * This is the class that it is about the player or character that the user
+ * will be playing with. It is declared variables about it size to print,
+ * flags that keep record if the player has a collision, etc.
+ * The class inherits of the Item class.
+ * 
+ * @author Sergio Gonzalez and Noe Campos
+ * @date 22/02/2018
+ * @version 3.0
  */
+
 public class Player extends Item{
 
-    private Game game;
+    private Game game;       
     private int speed = 10;
     
     public Player(int x, int y, int width, int height, Game game) {

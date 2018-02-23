@@ -8,58 +8,80 @@ package Videogame;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 /**
  *
  * @author antoniomejorado
  */
 public abstract class Item {
-    protected int x;        // to store x position
-    protected int y;        // to store y position
-    protected int width;    // to store width
-    protected int height;   // to store height
+    protected int x;        // To store x position
+    protected int y;        // To store y position
+    protected int width;    // To store width
+    protected int height;   // To store height
+    protected Game gamGame; // To store the game object
+    protected Shape shape;  //To store the rectangle attribute
     
     /**
-     * Set the initial values to create the item
-     * @param x <b>x</b> position of the object
-     * @param y <b>y</b> position of the object
+     * Item
+     * 
+     * @param x to set the X value
+     * @param y to set the Y value
+     * @param width to set the Width of the Item
+     * @param height to set the Height of the item
+     * @param iType to know if it is a rectangle of a circle
      */
     public Item(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        //this.shape = shape;      
     }
 
+    /**
+     * getWidth
+     * 
+     * @return the Width of the Item
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * getHeight
+     * 
+     * @return the height of the item
+     */
     public int getHeight() {
         return height;
     }
-    
-    public void setWidth(int width) {
-        this.width = width;
-    }
-    
-    public void setHeight(int height) {
-        this.height = height;
-    }
+  
     /**
-     * Get x value
-     * @return x 
+     * getX
+     * 
+     * @return x value
      */
     public int getX() {
         return x;
     }
 
     /**
-     * Get y value
-     * @return y 
+     * getY
+     * 
+     * @return y value
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * getShape
+     * 
+     * @return the rectangle or cicle of the item
+     */
+    public Shape getShape() {
+        return shape;
     }
 
     /**
@@ -78,6 +100,27 @@ public abstract class Item {
         this.y = y;
     }
     
+    /**
+     * setWidth
+     * 
+     * @param width to modify the width of the item
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    
+    /**
+     * setHeight
+     * 
+     * @param height to modify the heigth of the item
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+   
+    
+    
     public boolean intersects(Object obj)
     {
         // check if the object is an Item        
@@ -88,12 +131,18 @@ public abstract class Item {
     {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
+    
+    
     /**
+     * tick 
+     * 
      * To update positions of the item for every tick
      */
     public abstract void tick();
     
     /**
+     * render
+     * 
      * To paint the item
      * @param g <b>Graphics</b> object to paint the item
      */
