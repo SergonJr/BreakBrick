@@ -291,7 +291,7 @@ public class Game implements Runnable
         else
         {
             g = bs.getDrawGraphics();
-            g.drawImage(Assets.background, 0, 0, width, height, null);
+            g.drawImage(Assets.imaBackground, 0, 0, width, height, null);
             player.render(g);
             ball.render(g);
             for (Brick brick : bricks)
