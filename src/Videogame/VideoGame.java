@@ -1,4 +1,4 @@
-package videogame;
+package Videogame;
 
 /**
  *
@@ -11,7 +11,7 @@ public class VideoGame {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Game g = new Game("Juego", 1920, 800);
+        Game g = new Game("Juego", 800, 600);
         g.start();
     }        
 }

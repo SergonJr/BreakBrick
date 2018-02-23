@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package videogame;
+package Videogame;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
