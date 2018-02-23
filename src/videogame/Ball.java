@@ -12,8 +12,8 @@ import java.awt.Graphics;
  *
  * @author Sergon
  */
-public class Ball extends Item{
-
+public class Ball extends Item
+{
     private Game game;
     private int speedX;         //  speed x
     private int speedY;         //  speed y

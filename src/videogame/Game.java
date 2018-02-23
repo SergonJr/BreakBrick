@@ -34,6 +34,7 @@ public class Game implements Runnable
     private ArrayList<PowerUp> powUps;// manage powerUps
     private boolean iKill, sTime, iBar; // manage powerUp flags
     private long tKill, tTime, tBar; // shut down powers
+    private boolean gameOver;
 
     /**
      * to create title, width and height and set the game is still not running
@@ -53,6 +54,7 @@ public class Game implements Runnable
         iKill = false;
         sTime = false;
         iBar = false;
+        gameOver = false;
     }
 
     /**
@@ -83,6 +85,10 @@ public class Game implements Runnable
     {
         keyManager.tick();
         
+        if (getKeyManager().r && gameOver)
+        {
+            reset();
+        }
         if (this.getKeyManager().space && !isStarted())
         {
             setStarted(true);
@@ -102,6 +108,11 @@ public class Game implements Runnable
             {            
                 // moving the ball
                 ball.tick();
+                
+                if (ball.getY() >= getHeight() || bricks.isEmpty())
+                {
+                    gameOver = true;
+                }                
             }       
             else
             {
@@ -169,19 +180,19 @@ public class Game implements Runnable
             }
         }
         
-        if (iKill && System.nanoTime() - tKill >= 20*1000000000)
+        if (iKill && System.nanoTime() - tKill >= 15*1000000000)
         {
             this.disableInstaKill();
             System.out.println("iKill deactivated");
             iKill = false;
         }            
-        if (sTime && System.nanoTime() - tTime >= 20*1000000000)
+        if (sTime && System.nanoTime() - tTime >= 15*1000000000)
         {
             this.resetTime();
             System.out.println("Time deactivated");
             sTime = false;
         }
-        if (iBar && System.nanoTime() - tBar >= 20*1000000000)
+        if (iBar && System.nanoTime() - tBar >= 15*1000000000)
         {
             this.decreaseBar();
             System.out.println("Bar deactivated");
@@ -196,7 +207,7 @@ public class Game implements Runnable
             {
                 ball.setSpeedX(5 + ((ball.getX() + (ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);
             }
-            else if (ball.getX() + ball.getWidth()/2 < player.getX() - player.getWidth()/2)
+            else 
             {
                 ball.setSpeedX(-5 + ((ball.getX() + (ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);                
             }
@@ -254,6 +265,8 @@ public class Game implements Runnable
                 bricks.add(brick);
              }
          }
+        started = false;
+        gameOver = false;
     }
 
     public KeyManager getKeyManager() 

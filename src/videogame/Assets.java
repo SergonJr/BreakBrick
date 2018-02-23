@@ -17,7 +17,7 @@ public class Assets
      */
     public static void init() 
     {
-        background = ImageLoader.loadImage("/images/space.jpg");
+        background = ImageLoader.loadImage("/images/heisenberg.jpg");
         player = ImageLoader.loadImage("/images/zimShip.png");
         enemy = ImageLoader.loadImage("/images/enemy.png");
     }
