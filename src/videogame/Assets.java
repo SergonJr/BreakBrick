@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
  */
 public class Assets 
 {
-    public static BufferedImage imaBackground; // to store background image
+    public static BufferedImage imaBackground; //To store background image
+    //kasnfbsj,dfbjdsvhfhbsdj
 
     /**
      * initializing the images of the game
