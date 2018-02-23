@@ -11,13 +11,11 @@ import java.util.Random;
 public class PowerUp extends Item
 {    
     private int power;        // determines the kind of power
-    private Game game;      // to interact with game object
     Random rand = new Random();
     
     public PowerUp(int x, int y, int width, int height, Game game)
     {
         super(x, y, width, height);
-        this.game = game;
         power = rand.nextInt(3) + 1;
     }
 
@@ -38,7 +36,7 @@ public class PowerUp extends Item
         switch (getPower())
         {
             case 1:
-                g.setColor(Color.green);
+                g.setColor(Color.blue);
                 break;
             case 2: 
                 g.setColor(Color.white);
