@@ -1,17 +1,16 @@
 package Videogame;
 
-
 import java.awt.image.BufferedImage;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author ama-n
+ * Animation
+ * 
+ * Class that are in charge of control the number of frames or sprites 
+ * per a specific amount of time, to give creat an animation.
+ * 
+ * @author Noé Amador Campos Castillo
+ * @date 23/02/2018
+ * @version 2.0
  */
 public class Animation {
     private int iSpeed;                 //For the speed of every frame

@@ -7,32 +7,45 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * Game
  *
- * @author antoniomejorado
+ * This is the class of the game, that control the participation of the other
+ * classes as Player, Display, etc.
+ *
+ * @author Noé Campos and Sergio Gonzalez
+ * @date 31/01/2018
+ * @version 3.0
  */
 public class Game implements Runnable 
 {
-    private BufferStrategy bs;      // to have several buffers when displaying
-    private Graphics g;             // to paint objects
-    private Display display;        // to display in the game
-    String title;                   // title of the window
-    private int width;              // width of the window
-    private int height;             // height of the window
-    private Thread thread;          // thread to create the game
-    private boolean running;        // to set the game
-    private boolean started;        // to start the game
-    private Player player;          // to use a player
-    private KeyManager keyManager;  // to manage the keyboard
-    private Ball ball;              // little ball
-    private ArrayList<Brick> bricks;// bricks
-    private boolean pause;
-    private ArrayList<PowerUp> powUps;// manage powerUps
-    private boolean iKill, sTime, iBar; // manage powerUp flags
-    private long tKill, tTime, tBar; // shut down powers
-    private boolean gameOver;
+    private BufferStrategy bs;      // To have several buffers when displaying
+    private Graphics g;             // To paint objects
+    private Display display;        // To display in the game
+    String title;                   // Title of the window
+    private int width;              // Width of the window
+    private int height;             // Height of the window
+    
+    private Thread thread;          // Thread to create the game
+    private boolean running;        // To set the game
+    private boolean started;        // To start the game
+    
+    private KeyManager keyManager;  // To manage the keyboard
+    
+    private Player player;          // To use a player
+    private Ball ball;              // Little ball
+    private ArrayList<Brick> bricks;// Bricks
+    
+    private boolean pause;          //Flag to pause the game
+    
+    private ArrayList<PowerUp> powUps;  // Manage powerUps
+    private boolean iKill, sTime, iBar; // Manage powerUp flags
+    private long tKill, tTime, tBar;    // Shut down powers
+    private boolean gameOver;           // Flag to know if the player lost
 
     /**
-     * to create title, width and height and set the game is still not running
+     * Game(Constructor)
+     * 
+     * To create title, width and height and set the game is still not running
      * @param title to set the title of the window
      * @param width to set the width of the window
      * @param height  to set the height of the window
@@ -53,7 +66,9 @@ public class Game implements Runnable
     }
 
     /**
-     * initializing the display window of the game
+     * Init
+     * 
+     * Initializing the display window of the game, player, bricks, etc.
      */
     private void init() 
     {
