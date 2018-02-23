@@ -46,7 +46,8 @@ public class Ball extends Item
             setY(0);
             setSpeedY(getSpeedY() * -1);
         }
-         
+        
+        this.getRectangle().setLocation(getX(), getY());
     }
 
     @Override

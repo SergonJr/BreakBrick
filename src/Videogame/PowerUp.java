@@ -27,7 +27,8 @@ public class PowerUp extends Item
     @Override
     public void tick()
     {
-        setY(getY() + 3);                
+        setY(getY() + 3);   
+        this.getRectangle().setLocation(getX(), getY());
     }
 
     @Override

@@ -135,7 +135,8 @@ public class Game implements Runnable
         while (itrB.hasNext())
         {
             Brick brick = (Brick) itrB.next();
-            if (ball.intersects(brick))
+            //if (ball.intersects(brick))
+            if(ball.getRectangle().intersects(brick.getRectangle()))
             {
                 brick.setHitPoints(brick.getHitPoints() - 1);
                 System.out.println(brick.getHitPoints());
@@ -160,7 +161,8 @@ public class Game implements Runnable
             {
                 PowerUp pow = (PowerUp) itrP.next();
                 pow.tick();
-                if (pow.intersects(player))
+                //if (pow.intersects(player))
+                if(pow.getRectangle().intersects(player.getRectangle()))
                 {
                     System.out.println(pow.getPower());     
                     switch (pow.getPower())
@@ -209,7 +211,8 @@ public class Game implements Runnable
             iBar = false;
         }
         // check collision bricks versus ball     
-        if (ball.intersects(player))
+//        if (ball.intersects(player))
+        if(ball.getRectangle().intersects(player.getRectangle()))
         {            
             ball.setSpeedY(ball.getSpeedY() * -1);
             

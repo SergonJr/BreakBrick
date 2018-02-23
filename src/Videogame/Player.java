@@ -43,7 +43,9 @@ public class Player extends Item{
         }
         else if (getX() <= 0) {
             setX(0);
-        }       
+        }
+        
+        this.getRectangle().setLocation(getX(), getY());
     }
 
     @Override

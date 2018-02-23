@@ -9,6 +9,7 @@ package Videogame;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import javafx.scene.shape.Circle;
 
 /**
  *
@@ -20,7 +21,7 @@ public abstract class Item {
     protected int width;    // To store width
     protected int height;   // To store height
     protected Game gamGame; // To store the game object
-    protected Shape shape;  //To store the rectangle attribute
+    protected Rectangle rectangle;  //To store the rectangle attribute
     
     /**
      * Item
@@ -29,14 +30,13 @@ public abstract class Item {
      * @param y to set the Y value
      * @param width to set the Width of the Item
      * @param height to set the Height of the item
-     * @param iType to know if it is a rectangle of a circle
      */
     public Item(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        //this.shape = shape;      
+        this.rectangle = new Rectangle(x, y, width, height);
     }
 
     /**
@@ -76,12 +76,12 @@ public abstract class Item {
     }
 
     /**
-     * getShape
+     * getRectangle
      * 
      * @return the rectangle or cicle of the item
      */
-    public Shape getShape() {
-        return shape;
+    public Rectangle getRectangle() {    
+        return rectangle;
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class Item {
     }
     
    
-    
+    /*
     
     public boolean intersects(Object obj)
     {
@@ -131,7 +131,7 @@ public abstract class Item {
     {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
-    
+    */
     
     /**
      * tick 
