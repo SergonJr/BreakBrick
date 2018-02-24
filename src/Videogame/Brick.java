@@ -5,20 +5,25 @@ import java.awt.Graphics;
 import java.util.Random;
 
 /**
- *
- * @author Sergon et Noe
+ * Ball
+ * 
+ * Create the brick that are going to be destroy.
+ * 
+ * @author Noe Campos and Sergio Gonzalez 
+ * @date 22/02/2018
+ * @version 1.0
  */
 public class Brick extends Item
 {
-    private Game game;
-    private int speed = 5;
-    private int hitPoints;
+    private Game gamGame;
+    private int iHitPoints;
     Random rand = new Random();
-    public Brick(int x, int y, int width, int height, Game game) 
+    
+    public Brick(int iX, int iY, int iWidth, int iHeight, Game gamGame) 
     {
-        super(x, y, width, height);
-        this.game = game;
-        hitPoints = rand.nextInt(5) + 1;
+        super(iX, iY, iWidth, iHeight);
+        this.gamGame = gamGame;
+        iHitPoints = rand.nextInt(5) + 1;
     }
 
     @Override
@@ -33,14 +38,24 @@ public class Brick extends Item
     {
     }
 
+    /**
+     * getHitPoints
+     * 
+     * @return the HitPoints value
+     */
     public int getHitPoints()
     {
-        return hitPoints;
+        return iHitPoints;
     }
 
+    /**
+     * setHitPoints
+     * 
+     * @param hitPoints to set the value
+     */
     public void setHitPoints(int hitPoints)
     {
-        this.hitPoints = hitPoints;
+        this.iHitPoints = hitPoints;
     }
     
     

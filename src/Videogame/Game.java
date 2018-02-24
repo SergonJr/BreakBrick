@@ -25,27 +25,27 @@ public class Game implements Runnable
     private int width;              // Width of the window
     private int height;             // Height of the window
     
-    private Thread thread;          // Thread to create the game
-    private boolean running;        // To set the game
-    private boolean started;        // To start the game
+    private Thread thread;              // Thread to create the game
+    private boolean bRunning;           // To set the game
+    private boolean bStarted;           // To start the game
     
-    private KeyManager keyManager;  // To manage the keyboard
+    private KeyManager keyManager;      // To manage the keyboard
     
-    private Player player;          // To use a player
-    private Ball ball;              // Little ball
-    private ArrayList<Brick> bricks;// Bricks
+    private Player player;              // To use a player
+    private Ball Ball;                  // Little Ball
+    private ArrayList<Brick> arrBricks; // Bricks
     
-    private boolean pause;          //Flag to pause the game
+    private boolean bPause;              //Flag to bPause the game
     
-    private ArrayList<PowerUp> powUps;  // Manage powerUps
-    private boolean iKill, sTime, iBar; // Manage powerUp flags
+    private ArrayList<PowerUp> arrPowUps;  // Manage powerUps
+    private boolean bKill, bTime, bBar; // Manage powerUp flags
     private long tKill, tTime, tBar;    // Shut down powers
-    private boolean gameOver;           // Flag to know if the player lost
+    private boolean bGameOver;           // Flag to know if the player lost
 
     /**
      * Game(Constructor)
      * 
-     * To create title, width and height and set the game is still not running
+     * To create title, width and height and set the game is still not bRunning
      * @param title to set the title of the window
      * @param width to set the width of the window
      * @param height  to set the height of the window
@@ -55,29 +55,32 @@ public class Game implements Runnable
         this.title = title;
         this.width = width;
         this.height = height;
-        running = false;
-        started = false;
+        bRunning = false;
+        bStarted = false;
         keyManager = new KeyManager();
-        pause = false;
-        iKill = false;
-        sTime = false;
-        iBar = false;
-        gameOver = false;
+        bPause = false;
+        bKill = false;
+        bTime = false;
+        bBar = false;
+        bGameOver = false;
     }
 
     /**
      * Init
      * 
-     * Initializing the display window of the game, player, bricks, etc.
+     * Initializing the display window of the game, player, arrBricks, etc.
      */
     private void init() 
     {
          display = new Display(title, getWidth(), getHeight());  
          Assets.init();
-         player = new Player(getWidth() / 2 - 100, getHeight() - 50, 100, 25, this);
-         ball = new Ball(getWidth() / 2 - 20, getHeight() - 50 - 20, 20, 20, 5, -5, this);
-         bricks = new ArrayList<Brick>();
-         powUps = new ArrayList<PowerUp>();
+         
+         player = new Player(getWidth() / 2 - 100, getHeight() - 100, 100, 30, this);
+         Ball = new Ball(getWidth() / 2 - 25, player.getY()-25, 25, 25, 5, -5, this);
+         
+         arrBricks = new ArrayList<Brick>();
+         arrPowUps = new ArrayList<PowerUp>();
+         
          int width_brick = getWidth() / 10 - 6;
          int height_brick = getHeight() / 3 / 5 - 10;
          for (int i = 0; i < 10; i++)
@@ -85,7 +88,7 @@ public class Game implements Runnable
              for (int j = 0; j < 5; j++)
              {
                  Brick brick = new Brick(i * (width_brick + 3) + 15, j * (height_brick + 5) + 15, width_brick, height_brick, this);
-                 bricks.add(brick);
+                 arrBricks.add(brick);
              }
          }
          display.getJframe().addKeyListener(keyManager);                  
@@ -95,7 +98,7 @@ public class Game implements Runnable
     {
         keyManager.tick();
         
-        if (getKeyManager().isbR() && gameOver)
+        if (getKeyManager().isbR() && bGameOver)
         {
             reset();
         }
@@ -116,47 +119,47 @@ public class Game implements Runnable
             player.tick();
             if (isStarted())
             {            
-                // moving the ball
-                ball.tick();
+                // moving the Ball
+                Ball.tick();
                 
-                if (ball.getY() >= getHeight() || bricks.isEmpty())
+                if (Ball.getY() >= getHeight() || arrBricks.isEmpty())
                 {
-                    gameOver = true;
+                    bGameOver = true;
                 }                
             }       
             else
             {
-                ball.setX(player.getX() + player.getWidth() / 2 - ball.getWidth() / 2);
+                Ball.setX(player.getX() + player.getWidth() / 2 - Ball.getWidth() / 2);
             }
         }        
         
-        // check collision bricks versus ball     
-        Iterator itrB = bricks.iterator();
+        // check collision arrBricks versus Ball     
+        Iterator itrB = arrBricks.iterator();
         while (itrB.hasNext())
         {
             Brick brick = (Brick) itrB.next();
-            //if (ball.intersects(brick))
-            if(ball.getRectangle().intersects(brick.getRectangle()))
+            //if (Ball.intersects(brick))
+            if(Ball.getRectangle().intersects(brick.getRectangle()))
             {
                 brick.setHitPoints(brick.getHitPoints() - 1);
                 System.out.println(brick.getHitPoints());
                 if (brick.getHitPoints() <= 0)
                 {
-                    bricks.remove(brick);
+                    arrBricks.remove(brick);
                     PowerUp powUp;
                     powUp = new PowerUp(brick.getX() + brick.getWidth()/2, 
                             brick.getY() + brick.getHeight(), 50, 50);
-                    powUps.add(powUp);
-                    itrB = bricks.iterator();
+                    arrPowUps.add(powUp);
+                    itrB = arrBricks.iterator();
                 }
-                ball.setSpeedY(ball.getSpeedY() * -1);
+                Ball.setSpeedY(Ball.getSpeedY() * -1);
             }                                    
         }
                 
         // manage PowerUps 
-        if (!powUps.isEmpty())
+        if (!arrPowUps.isEmpty())
         {
-            Iterator itrP = powUps.iterator();
+            Iterator itrP = arrPowUps.iterator();
             while (itrP.hasNext())
             {
                 PowerUp pow = (PowerUp) itrP.next();
@@ -169,60 +172,60 @@ public class Game implements Runnable
                     {
                         case 1: 
                             this.setInstaKill();
-                            iKill = true;
+                            bKill = true;
                             tKill = System.nanoTime();
-                            System.out.println("iKill activated");
+                            System.out.println("bKill activated");
                             break;
                         case 2:
                             this.slowTime();
-                            sTime = true;
+                            bTime = true;
                             tTime = System.nanoTime();
                             System.out.println("Time activated");
                             break;
                         case 3:
                             this.increaseBar();
-                            iBar = true; 
+                            bBar = true; 
                             tBar = System.nanoTime();
                             System.out.println("Bar activated");
                             break;
                     }
-                    powUps.remove(pow);
-                    itrP = powUps.iterator();                    
+                    arrPowUps.remove(pow);
+                    itrP = arrPowUps.iterator();                    
                 }
             }
         }
         
-        if (iKill && System.nanoTime() - tKill >= 15*1000000000)
+        if (bKill && System.nanoTime() - tKill >= 15*1000000000)
         {
             this.disableInstaKill();
-            System.out.println("iKill deactivated");
-            iKill = false;
+            System.out.println("bKill deactivated");
+            bKill = false;
         }            
-        if (sTime && System.nanoTime() - tTime >= 15*1000000000)
+        if (bTime && System.nanoTime() - tTime >= 15*1000000000)
         {
             this.resetTime();
             System.out.println("Time deactivated");
-            sTime = false;
+            bTime = false;
         }
-        if (iBar && System.nanoTime() - tBar >= 15*1000000000)
+        if (bBar && System.nanoTime() - tBar >= 15*1000000000)
         {
             this.decreaseBar();
             System.out.println("Bar deactivated");
-            iBar = false;
+            bBar = false;
         }
-        // check collision bricks versus ball     
-//        if (ball.intersects(player))
-        if(ball.getRectangle().intersects(player.getRectangle()))
+        // check collision arrBricks versus Ball     
+//        if (Ball.intersects(player))
+        if(Ball.getRectangle().intersects(player.getRectangle()))
         {            
-            ball.setSpeedY(ball.getSpeedY() * -1);
+            Ball.setSpeedY(Ball.getSpeedY() * -1);
             
-            if (ball.getX() + ball.getWidth()/2 > player.getX() + player.getWidth()/2)
+            if (Ball.getX() + Ball.getWidth()/2 > player.getX() + player.getWidth()/2)
             {
-                ball.setSpeedX(5 + ((ball.getX() + (ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);
+                Ball.setSpeedX(5 + ((Ball.getX() + (Ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);
             }
             else 
             {
-                ball.setSpeedX(-5 + ((ball.getX() + (ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);                
+                Ball.setSpeedX(-5 + ((Ball.getX() + (Ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);                
             }
         }
     }
@@ -241,7 +244,7 @@ public class Game implements Runnable
         long now;
         // initializing last time to the computer time in nanosecs
         long lastTime = System.nanoTime();
-        while (running)
+        while (bRunning)
         {
             // setting the time now to the actual time
             now = System.nanoTime();
@@ -265,9 +268,9 @@ public class Game implements Runnable
     {
         player.setX(getWidth() / 2 - 100);
         player.setY(getHeight() - 50);
-        ball.setX(getWidth() / 2 - 20);
-        ball.setY(getHeight() - 50 - 20);              
-        bricks = new ArrayList<Brick>();        
+        Ball.setX(getWidth() / 2 - 20);
+        Ball.setY(getHeight() - 50 - 20);              
+        arrBricks = new ArrayList<Brick>();        
         int width_brick = getWidth() / 10 - 6;
         int height_brick = getHeight() / 3 / 5 - 10;
         for (int i = 0; i < 10; i++)
@@ -275,11 +278,11 @@ public class Game implements Runnable
             for (int j = 0; j < 5; j++)
             {
                 Brick brick = new Brick(i * (width_brick + 3) + 15, j * (height_brick + 5) + 15, width_brick, height_brick, this);
-                bricks.add(brick);
+                arrBricks.add(brick);
              }
          }
-        started = false;
-        gameOver = false;
+        bStarted = false;
+        bGameOver = false;
     }
 
     public KeyManager getKeyManager() 
@@ -306,12 +309,12 @@ public class Game implements Runnable
             g = bs.getDrawGraphics();
             g.drawImage(Assets.imaBackground, 0, 0, width, height, null);
             player.render(g);
-            ball.render(g);
-            for (Brick brick : bricks)
+            Ball.render(g);
+            for (Brick brick : arrBricks)
             {
                 brick.render(g);
             }
-            for (PowerUp powUp : powUps)
+            for (PowerUp powUp : arrPowUps)
             {
                 powUp.render(g);
             }
@@ -325,9 +328,9 @@ public class Game implements Runnable
      */
     public synchronized void start() 
     {
-        if (!running) 
+        if (!bRunning) 
         {
-            running = true;
+            bRunning = true;
             thread = new Thread(this);
             thread.start();
         }
@@ -338,9 +341,9 @@ public class Game implements Runnable
      */
     public synchronized void stop() 
     {
-        if (running) 
+        if (bRunning) 
         {
-            running = false;
+            bRunning = false;
             try 
             {
                 thread.join();
@@ -354,12 +357,12 @@ public class Game implements Runnable
 
     public Ball getBall()
     {
-        return ball;
+        return Ball;
     }
 
-    public void setBall(Ball ball)
+    public void setBall(Ball Ball)
     {
-        this.ball = ball;
+        this.Ball = Ball;
     }
   
     
@@ -383,22 +386,22 @@ public class Game implements Runnable
 
     public boolean isStarted()
     {
-        return started;
+        return bStarted;
     }
 
-    public void setStarted(boolean started)
+    public void setStarted(boolean bStarted)
     {
-        this.started = started;
+        this.bStarted = bStarted;
     }
     
     public boolean isPaused()
     {
-        return pause;
+        return bPause;
     }
     
-    public void setPause(boolean pause)
+    public void setPause(boolean bPause)
     {
-        this.pause = pause;
+        this.bPause = bPause;
     }
 
     public Player getPlayer()
