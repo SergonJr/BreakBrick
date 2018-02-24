@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Videogame;
 
 import java.awt.Graphics;
@@ -12,9 +6,16 @@ import java.awt.Shape;
 import javafx.scene.shape.Circle;
 
 /**
- *
- * @author antoniomejorado
+ * Item
+ * 
+ * The class that inherit a position in X,Y and some functions to 
+ * other objects like the player or an enemy in the future.
+ * 
+ * @author Sergio Gonzalez and Noé Campos
+ * @date 22/02/2018
+ * @version 2.0
  */
+
 public abstract class Item {
     protected int x;        // To store x position
     protected int y;        // To store y position
@@ -117,21 +118,6 @@ public abstract class Item {
     public void setHeight(int height) {
         this.height = height;
     }
-    
-   
-    /*
-    
-    public boolean intersects(Object obj)
-    {
-        // check if the object is an Item        
-        return (obj instanceof Item && this.getBounds().intersects(((Item) obj).getBounds()));        
-    }
-    
-    private Rectangle getBounds()
-    {
-        return new Rectangle(getX(), getY(), getWidth(), getHeight());
-    }
-    */
     
     /**
      * tick 

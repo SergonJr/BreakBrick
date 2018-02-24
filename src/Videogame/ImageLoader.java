@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Videogame;
 
 import java.awt.image.BufferedImage;
@@ -12,12 +7,20 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author antoniomejorado
+ * ImageLoader
+ * 
+ * The class where its defined how to get loaded an image from the resources
+ * 
+ * @author Sergio Gonzalez and Noé Campos
+ * @date 22/02/2018
+ * @version 1.0
  */
+
 public class ImageLoader {    
     /**
-     * to get an image from the file path
+     * loadImage
+     * 
+     * To get an image from the file path
      * @param path it is the path of the file
      * @return the <bold>BufferedImage</bold> object
      */

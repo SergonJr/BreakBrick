@@ -137,11 +137,15 @@ public class KeyManager implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) 
-    {
-        // Tet true to every key pressed
-        // Tet flag bSpace if needed        
-        arrKeys[e.getKeyCode()] = true;
-        
+    { 
+        if(e.getKeyCode() == KeyEvent.VK_LEFT 
+                || e.getKeyCode() == KeyEvent.VK_RIGHT){
+            
+            arrKeys[e.getKeyCode()] = true;
+       
+        }else{
+            arrKeys[e.getKeyCode()] = false;
+        } 
     }
 
     /**
@@ -152,8 +156,14 @@ public class KeyManager implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) 
     {
-        // Set false to every key released
-        arrKeys[e.getKeyCode()] = false;        
+        if(e.getKeyCode() == KeyEvent.VK_LEFT 
+                || e.getKeyCode() == KeyEvent.VK_RIGHT){
+            
+            arrKeys[e.getKeyCode()] = false;
+       
+        }else{
+            arrKeys[e.getKeyCode()] = true;
+        }        
     }
     
     /**
@@ -165,8 +175,13 @@ public class KeyManager implements KeyListener {
     {
         setbLeft(arrKeys[KeyEvent.VK_LEFT]);
         setbRigth(arrKeys[KeyEvent.VK_RIGHT]);
+        
         setbSpace(arrKeys[KeyEvent.VK_SPACE]);
         setbP(arrKeys[KeyEvent.VK_P]);
         setbR(arrKeys[KeyEvent.VK_R]);
+        
+        arrKeys[KeyEvent.VK_SPACE] = false;
+        arrKeys[KeyEvent.VK_P] = false;
+        arrKeys[KeyEvent.VK_R] = false;
     }
 }
