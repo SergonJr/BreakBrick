@@ -95,19 +95,19 @@ public class Game implements Runnable
     {
         keyManager.tick();
         
-        if (getKeyManager().r && gameOver)
+        if (getKeyManager().isbR() && gameOver)
         {
             reset();
         }
-        if (this.getKeyManager().space && !isStarted())
+        if (this.getKeyManager().isbSpace() && !isStarted())
         {
             setStarted(true);
         }
-        if (getKeyManager().p && !isPaused())
+        if (getKeyManager().isbP() && !isPaused())
         {
             setPause(true);
         }
-        else if (getKeyManager().p && isPaused())
+        else if (getKeyManager().isbP() && isPaused())
         {
             setPause(false);
         }

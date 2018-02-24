@@ -1,64 +1,172 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Videogame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- *
- * @author antoniomejorado
+ * KeyManager
+ * 
+ * In this class it is implement the class KeyListener, this is becouse
+ * it can be used to listen wich keys are being pressed and use to 
+ * realize certain process
+ * 
+ * @author Noé Campos and Sergio Gonzalez
+ * @date 23/01/2018
+ * @version 2.0
  */
 public class KeyManager implements KeyListener {
     
-    public boolean up;      // flag to move up the player
-    public boolean down;    // flag to move down the player
-    public boolean left;    // flag to move left the player
-    public boolean right;   // flag to move right the player    
-    private boolean keys[];  // to store all the flags for every key
-    public boolean space;  // flag to shoot
-    public boolean p;
-    public boolean r;
+    private static boolean bLeft;       // Flag to move bLeft the player
+    private static boolean bRigth;      // Flag to move bRigth the player
+    private static boolean bSpace;      // Flag to shoot
+    private static boolean bP;          // Flag to Pause
+    private static boolean bR;          // Flag to Restart
     
+    private boolean arrKeys[];          // To store all the flags for every key
+    
+    /**
+     * KeyManager(Constructor)
+     * 
+     * Create the array to store al the flags
+     */
     public KeyManager() {
-        keys = new boolean[256];
+        arrKeys = new boolean[256];
     }
+
+    /**
+     * isbLeft
+     * 
+     * @return the Left flag
+     */
+    public static boolean isbLeft() {
+        return bLeft;
+    }
+
+    /**
+     * isbRight
+     * 
+     * @return the rigth flag
+     */
+    public static boolean isbRigth() {
+        return bRigth;
+    }
+
+    /**
+     * isbP
+     * 
+     * @return the P flag
+     */
+    public static boolean isbP() {
+        return bP;
+    }
+
+    /**
+     * isbR
+     * 
+     * @return the R flag
+     */
+    public static boolean isbR() {
+        return bR;
+    }
+
+    /**
+     * isbSpace
+     * 
+     * @return the Space flag
+     */
+    public static boolean isbSpace() {
+        return bSpace;
+    }
+    
+    
+    /**
+     * setbLeft
+     * 
+     * @param bLeft to set the Left flag
+     */
+    public static void setbLeft(boolean bLeft) {
+        KeyManager.bLeft = bLeft;
+    }
+
+    /**
+     * setbRigth
+     * 
+     * @param bRigth to set the Rigth flag
+     */
+    public static void setbRigth(boolean bRigth) {
+        KeyManager.bRigth = bRigth;
+    }
+
+    /**
+     * setbSpace
+     * 
+     * @param bSpace to set the Space flag
+     */
+    public static void setbSpace(boolean bSpace) {
+        KeyManager.bSpace = bSpace;
+    }
+
+    /**
+     * setbP
+     * 
+     * @param bP to set the Pause flag
+     */
+    public static void setbP(boolean bP) {
+        KeyManager.bP = bP;
+    }
+
+    /**
+     * setbR
+     * 
+     * @param bR to set the Reset flag
+     */
+    public static void setbR(boolean bR) {
+        KeyManager.bR = bR;
+    }
+    
     
     @Override
     public void keyTyped(KeyEvent e) 
     {
     }
 
+    /**
+     * keyPressed
+     * 
+     * @param e to know wich key is being pressed
+     */
     @Override
     public void keyPressed(KeyEvent e) 
     {
-        // set true to every key pressed
-        // set flag space if needed        
-        keys[e.getKeyCode()] = true;
+        // Tet true to every key pressed
+        // Tet flag bSpace if needed        
+        arrKeys[e.getKeyCode()] = true;
         
     }
 
+    /**
+     * keyReleased
+     * 
+     * @param e to know wich key has being released
+     */
     @Override
     public void keyReleased(KeyEvent e) 
     {
-        // set false to every key released
-        keys[e.getKeyCode()] = false;        
+        // Set false to every key released
+        arrKeys[e.getKeyCode()] = false;        
     }
     
     /**
-     * to enable or disable moves on every tick
+     * Tick
+     * 
+     * To enable or disable moves on every tick
      */
     public void tick() 
     {
-        up = keys[KeyEvent.VK_UP];
-        down = keys[KeyEvent.VK_DOWN];
-        left = keys[KeyEvent.VK_LEFT];
-        right = keys[KeyEvent.VK_RIGHT];
-        space = keys[KeyEvent.VK_SPACE];
-        p = keys[KeyEvent.VK_P];
-        r = keys[KeyEvent.VK_R];
+        setbLeft(arrKeys[KeyEvent.VK_LEFT]);
+        setbRigth(arrKeys[KeyEvent.VK_RIGHT]);
+        setbSpace(arrKeys[KeyEvent.VK_SPACE]);
+        setbP(arrKeys[KeyEvent.VK_P]);
+        setbR(arrKeys[KeyEvent.VK_R]);
     }
 }

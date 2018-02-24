@@ -1,4 +1,3 @@
-
 package Videogame;
 
 import java.awt.Color;
@@ -19,51 +18,78 @@ import java.awt.Graphics;
 
 public class Player extends Item{
 
-    private Game game;       
-    private int speed = 10;
+    private Game gamGame;              //Game Object     
+    private int iSpeed = 10;        //The speed of the player
+    private Animation aniPolice;    //To store the animation of the player
     
-    public Player(int x, int y, int width, int height, Game game) {
+    public Player(int x, int y, int width, int height, Game gamGame)
+    {
         super(x, y, width, height);
-        this.game = game;
+        this.gamGame = gamGame;
+        aniPolice = new Animation(Assets.PoliceBar, 50);
+    }
+    
+    
+    /**
+     * getSpeed
+     * 
+     * @return the Speed value
+     */
+    public int getSpeed()
+    {
+        return iSpeed;
     }
 
+    /**
+     * setSpeed
+     * 
+     * @param iSpeed to set the speed value
+     */
+    public void setSpeed(int iSpeed)
+    {
+        this.iSpeed = iSpeed;
+    }
+   
+    /**
+     * tick
+     * 
+     * Function that actualize the position of the player, by a series 
+     * of condition of what keys are being pressed. 
+     */
     @Override
     public void tick() 
     {
-        // moving player depending on keys       
-        if (game.getKeyManager().left) {
-           setX(getX() - speed);
+        // Moving the player depending on wich keys are pressed       
+        if (gamGame.getKeyManager().isbLeft()){
+           setX(getX() - iSpeed);
         }
-        if (game.getKeyManager().right) {
-           setX(getX() + speed);
+        if (gamGame.getKeyManager().isbRigth()) {
+           setX(getX() + iSpeed);
         }
-        // collision with walls
-        if (getX() + 100 >= game.getWidth()) {
-            setX(game.getWidth() - 100);
+        // Define borders, collitions 
+        if (getX() + 100 >= gamGame.getWidth()) {
+            setX(gamGame.getWidth() - 100);
         }
         else if (getX() <= 0) {
             setX(0);
         }
         
+        //Animation Tick
+        aniPolice.tick();
+        
+        //Set the location of the recatangle
         this.getRectangle().setLocation(getX(), getY());
     }
 
+    /**
+     * render
+     * 
+     * @param g to draw the Player Animation
+     */
     @Override
     public void render(Graphics g) 
     {
-        g.setColor(Color.red);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
-    }
-
-    public int getSpeed()
-    {
-        return speed;
-    }
-
-    public void setSpeed(int speed)
-    {
-        this.speed = speed;
-    }
-    
-    
+        g.drawImage(aniPolice.getCurrentFrame(), getX(), getY(),
+                getWidth(), getHeight(), null);
+    } 
 }
