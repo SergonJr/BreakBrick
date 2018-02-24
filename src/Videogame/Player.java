@@ -18,13 +18,13 @@ import java.awt.Graphics;
 
 public class Player extends Item{
 
-    private Game gamGame;              //Game Object     
+    private Game gamGame;           //Game Object     
     private int iSpeed = 10;        //The speed of the player
     private Animation aniPolice;    //To store the animation of the player
     
-    public Player(int x, int y, int width, int height, Game gamGame)
+    public Player(int iX, int iY, int iWidth, int iHeight, Game gamGame)
     {
-        super(x, y, width, height);
+        super(iX, iY, iWidth, iHeight);
         this.gamGame = gamGame;
         aniPolice = new Animation(Assets.PoliceBar, 50);
     }

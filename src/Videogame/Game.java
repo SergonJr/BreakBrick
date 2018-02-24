@@ -145,7 +145,7 @@ public class Game implements Runnable
                     bricks.remove(brick);
                     PowerUp powUp;
                     powUp = new PowerUp(brick.getX() + brick.getWidth()/2, 
-                            brick.getY() + brick.getHeight(), 10, 10, this);
+                            brick.getY() + brick.getHeight(), 50, 50);
                     powUps.add(powUp);
                     itrB = bricks.iterator();
                 }

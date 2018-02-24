@@ -2,10 +2,18 @@ package Videogame;
 
 import java.awt.image.BufferedImage;
 
-
+/**
+ * SpriteSheet
+ *
+ * Class in charge of cut a Sprite Image in many parts to create 
+ * an animation
+ *
+ * @author Noé Campos
+ * @date 23/02/2018
+ * @version 1.0
+ */
 public class SpriteSheet {
     private BufferedImage buiSheet;             //To store the spritesheet
-    
     
     /**
      * SpreadSheet
