@@ -65,109 +65,235 @@ public class Game implements Runnable
         bGameOver = false;
     }
  
+    /**
+     * getKeyManager
+     * 
+     * @return the KeyManager
+     */
+    public KeyManager getKeyManager() 
+    {
+        return keyManager;
+    }
     
+    /**
+     * getWidth
+     * 
+     * @return the Width of the Game
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * getHeight
+     * 
+     * @return the Height of the game
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * isbRunning
+     * 
+     * @return the Running Flag
+     */
     public boolean isbRunning() {
         return bRunning;
     }
 
+    /**
+     * isbStarted
+     * 
+     * @return the bStarted Flag
+     */
     public boolean isbStarted() {
         return bStarted;
     }
 
+    /**
+     * isbPause
+     * 
+     * @return the bPause flag
+     */
     public boolean isbPause() {
         return bPause;
     }
 
+    /**
+     * isbKill
+     * 
+     * @return the bKill flag
+     */
     public boolean isbKill() {
         return bKill;
     }
 
+    /**
+     * bTime
+     * 
+     * @return the bTime flag
+     */
     public boolean isbTime() {
         return bTime;
     }
 
+    /**
+     * isbBar
+     * 
+     * @return the bBar flag
+     */
     public boolean isbBar() {
         return bBar;
     }
 
+    /**
+     * getKill
+     * 
+     * @return the iKill value
+     */
     public long gettKill() {
         return tKill;
     }
 
+    /**
+     * gettTime
+     * 
+     * @return the tTime value
+     */
     public long gettTime() {
         return tTime;
     }
 
+    /**
+     * gettBar
+     * 
+     * @return the tBar value
+     */
     public long gettBar() {
         return tBar;
     }
 
+    /**
+     * isbGameOver
+     * 
+     * @return the GameOver Flag
+     */
     public boolean isbGameOver() {
         return bGameOver;
     }
 
+    /**
+     * getPlayer
+     * 
+     * @return the Player Object
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * getBall
+     * 
+     * @return the Ball object
+     */
     public Ball getBall() {
         return Ball;
     } 
 
+    /**
+     * setbStarted
+     * 
+     * @param bStarted to set the value
+     */
     public void setbStarted(boolean bStarted) {
         this.bStarted = bStarted;
     }
 
+    /**
+     * setbRunning
+     * 
+     * @param bRunning to set the flag
+     */
     public void setbRunning(boolean bRunning) {
         this.bRunning = bRunning;
     }
 
+    /**
+     * setbPause
+     * 
+     * @param bPause to set the flag
+     */
     public void setbPause(boolean bPause) {
         this.bPause = bPause;
     }
 
+    /**
+     * setbGameOver
+     * 
+     * @param bGameOver to set the flag
+     */
     public void setbGameOver(boolean bGameOver) {
         this.bGameOver = bGameOver;
     }
     
-    
-    
-    
+    /**
+     * increaseBar
+     * 
+     * Make bigger the Bar
+     */
     public void increaseBar()
     {
         getPlayer().setWidth(getPlayer().getWidth() * 2);
         getPlayer().getRectangle().setSize(getPlayer().getWidth() * 2, 30);
     }
     
+    /**
+     * decreaseBar
+     * 
+     * Make smaller the Bar
+     */
     public void decreaseBar()
     {
         getPlayer().setWidth(getPlayer().getWidth() / 2);
         getPlayer().getRectangle().setSize(getPlayer().getWidth()/ 2, 30);
     }
     
+    /**
+     * setInstaKill
+     * 
+     * Activate the InstaKill
+     */
     public void setInstaKill()
     {
         getBall().setAttackP(5);        
     }
     
+    /**
+     * disableInstaKill
+     * 
+     * To desactivate the PowerUp
+     */
     public void disableInstaKill()
     {
         getBall().setAttackP(1);
     }
     
+    /**
+     * slowTime
+     * 
+     * Make faster the player
+     */
     public void slowTime()
     {
         getPlayer().setSpeed(20);
     }
     
+    /**
+     * resetTime
+     * 
+     * Back to normal the speed of the player
+     */
     public void resetTime()
     {
         getPlayer().setSpeed(10);
@@ -412,14 +538,15 @@ public class Game implements Runnable
     public void reset()
     {
         player.setX(getWidth() / 2 - 100);
-        player.setY(getHeight() - 100);
-        Ball.setX(getWidth() / 2 - 25);
-        Ball.setY(player.getY() - 25);
+        player.setY(getHeight() - 100);         //Reset the Player Position
+        Ball.setX(getWidth() / 2 - 25);         
+        Ball.setY(player.getY() - 25);          //Reset the Ball Position
         
-        arrBricks = new ArrayList<Brick>(); 
+        arrBricks.clear();
+        arrBricks = new ArrayList<Brick>();     //Reset the Brick List
         
         int width_brick = getWidth() / 10 - 6;
-        int height_brick = getHeight() / 3 / 5 - 10;
+        int height_brick = getHeight() / 3 / 5 - 10;    //Recalculate the brick size
         
         for (int i = 0; i < 10; i++)
         {
@@ -431,27 +558,20 @@ public class Game implements Runnable
                 
                 arrBricks.add(brick);
              }
-         }
+         }      //Make the array of bricks
         
-        bStarted = false;
-        bGameOver = false;
+        this.arrPowUps.clear();
+        
+        setbStarted(false);
+        setbGameOver(false);        //Restart the flags
     }
 
-    public KeyManager getKeyManager() 
-    {
-        return keyManager;
-    }
            
     private void render() 
     {
-        // get the buffer strategy from the display
+        // Get the buffer strategy from the display
         bs = display.getCanvas().getBufferStrategy();
-        /* if it is null, we define one with 3 buffers to display images of
-        the game, if not null, then we display every image of the game but
-        after clearing the Rectangle, getting the graphic object from the 
-        buffer strategy element. 
-        show the graphic and dispose it to the trash system
-        */
+        
         if (bs == null) 
         {
             display.getCanvas().createBufferStrategy(3);
@@ -476,7 +596,9 @@ public class Game implements Runnable
     }
     
     /**
-     * setting the thead for the game
+     * start
+     * 
+     * Setting the thead for the game
      */
     public synchronized void start() 
     {
