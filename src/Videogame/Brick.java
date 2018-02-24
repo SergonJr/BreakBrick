@@ -18,26 +18,20 @@ public class Brick extends Item
     private Game gamGame;
     private int iHitPoints;
     Random rand = new Random();
+   
+    Animation aniBrick;
+    private int iFrame;
     
     public Brick(int iX, int iY, int iWidth, int iHeight, Game gamGame) 
     {
         super(iX, iY, iWidth, iHeight);
         this.gamGame = gamGame;
         iHitPoints = rand.nextInt(5) + 1;
+        aniBrick = new Animation(Assets.Brick, 100);
+        iFrame = 0;
     }
-
-    @Override
-    public void render(Graphics g) 
-    {
-        g.setColor(Color.blue);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
-    }
-
-    @Override
-    public void tick()
-    {
-    }
-
+    
+    
     /**
      * getHitPoints
      * 
@@ -57,6 +51,24 @@ public class Brick extends Item
     {
         this.iHitPoints = hitPoints;
     }
+
+    public int getiFrame() {
+        return iFrame;
+    }
+
+    public void setiFrame(int iFrame) {
+        this.iFrame = iFrame;
+    }
     
+    @Override
+    public void tick()
+    {
+    }
+
+    @Override
+    public void render(Graphics g) 
+    {
+        g.drawImage(aniBrick.getSpecificFrame(iFrame), getX(), getY(), getWidth(), getHeight(), null);
+    }
     
 }

@@ -125,6 +125,20 @@ public class Game implements Runnable
     public void setbStarted(boolean bStarted) {
         this.bStarted = bStarted;
     }
+
+    public void setbRunning(boolean bRunning) {
+        this.bRunning = bRunning;
+    }
+
+    public void setbPause(boolean bPause) {
+        this.bPause = bPause;
+    }
+
+    public void setbGameOver(boolean bGameOver) {
+        this.bGameOver = bGameOver;
+    }
+    
+    
     
     
     public void increaseBar()
@@ -206,25 +220,23 @@ public class Game implements Runnable
     {
         //KeyManager ticl
         keyManager.tick();
-        
-        /*
-        if (getKeyManager().isbR() && bGameOver)
-        {
+
+        //To reset the game once the player lose
+        if(this.getKeyManager().isbR() && bGameOver){
             reset();
         }
         
-        if (getKeyManager().isbP() && !isPaused())
-        {
-            setPause(true);
+        //To pause or quit the pause
+        if(this.getKeyManager().isbP()){
+            setbPause(!isbPause());
         }
-        else if (getKeyManager().isbP() && isPaused())
-        {
-            setPause(false);
-        }*/
+        
+        //To start the game
         if (this.getKeyManager().isbSpace() && !isbStarted())
         {
             setbStarted(true);
         }
+        //If the game it is not in pause or the player has not lose
         if (!isbPause() && !isbGameOver())
         {
             player.tick();
@@ -241,102 +253,124 @@ public class Game implements Runnable
             else
             {
                 Ball.setX(player.getX() + player.getWidth() / 2 - Ball.getWidth() / 2);
-            }
-        }        
+            }        
         
-        // check collision arrBricks versus Ball     
-        Iterator itrB = arrBricks.iterator();
-        while (itrB.hasNext())
-        {
-            Brick brick = (Brick) itrB.next();
-            //if (Ball.intersects(brick))
-            if(Ball.getRectangle().intersects(brick.getRectangle()))
+            // Check collision arrBricks versus Ball     
+            Iterator itrB = arrBricks.iterator();
+            while (itrB.hasNext())
             {
-                brick.setHitPoints(brick.getHitPoints() - 1);
-                System.out.println(brick.getHitPoints());
-                if (brick.getHitPoints() <= 0)
-                {
-                    arrBricks.remove(brick);
-                    PowerUp powUp;
-                    powUp = new PowerUp(brick.getX() + brick.getWidth()/2, 
-                            brick.getY() + brick.getHeight(), 50, 50);
-                    arrPowUps.add(powUp);
-                    itrB = arrBricks.iterator();
-                }
-                Ball.setSpeedY(Ball.getSpeedY() * -1);
-            }                                    
-        }
+                Brick brick = (Brick) itrB.next();      //The iterator of Bricks
                 
-        // manage PowerUps 
-        if (!arrPowUps.isEmpty())
-        {
-            Iterator itrP = arrPowUps.iterator();
-            while (itrP.hasNext())
-            {
-                PowerUp pow = (PowerUp) itrP.next();
-                pow.tick();
-                //if (pow.intersects(player))
-                if(pow.getRectangle().intersects(player.getRectangle()))
+                //If the ball collide with a brick...
+                if(Ball.getRectangle().intersects(brick.getRectangle()))
                 {
-                    System.out.println(pow.getPower());     
-                    switch (pow.getPower())
+                    //Substract a HitPoint of the brick
+                    brick.setHitPoints(brick.getHitPoints() - 1);
+                    //Update the sprite of the Brick
+                    brick.setiFrame(4 - (brick.getHitPoints() - 1));
+                    
+                    //If the brick is destroyed
+                    if (brick.getHitPoints() <= 0)
                     {
-                        case 1: 
-                            this.setInstaKill();
-                            bKill = true;
-                            tKill = System.nanoTime();
-                            System.out.println("bKill activated");
-                            break;
-                        case 2:
-                            this.slowTime();
-                            bTime = true;
-                            tTime = System.nanoTime();
-                            System.out.println("Time activated");
-                            break;
-                        case 3:
-                            this.increaseBar();
-                            bBar = true; 
-                            tBar = System.nanoTime();
-                            System.out.println("Bar activated");
-                            break;
+                        arrBricks.remove(brick);        //Remove the brick
+                        PowerUp powUp;                  //Create the power up
+                        //Set the properties of it
+                        powUp = new PowerUp(brick.getX() + brick.getWidth()/2, 
+                                brick.getY() + brick.getHeight(), 50, 50);
+                        //Add the Power Up to the array
+                        arrPowUps.add(powUp);
+                        //Create the iterator
+                        itrB = arrBricks.iterator();
                     }
-                    arrPowUps.remove(pow);
-                    itrP = arrPowUps.iterator();                    
+                    //Change the ball direction
+                    Ball.setSpeedY(Ball.getSpeedY() * -1);
+                }                                    
+            }
+
+            // Manage PowerUps 
+            if (!arrPowUps.isEmpty())   //If exist Power Ups...
+            {
+                //Make the iterator
+                Iterator itrP = arrPowUps.iterator();
+                //While there is another Power Up
+                while (itrP.hasNext())
+                {
+                    //Obtain the next PowUp 
+                    PowerUp pow = (PowerUp) itrP.next();
+                    //Update the current Power Up
+                    pow.tick();
+                    
+                    //If the player reach the Power Up
+                    if(pow.getRectangle().intersects(player.getRectangle()))
+                    {   
+                        //Depends on the kind of Power Up
+                        switch (pow.getPower())
+                        {
+                            case 1: 
+                                this.setInstaKill();
+                                bKill = true;
+                                tKill = System.nanoTime();
+                                break;
+                                
+                            case 2:
+                                this.slowTime();
+                                bTime = true;
+                                tTime = System.nanoTime();
+                                break;
+                                
+                            case 3:
+                                this.increaseBar();
+                                bBar = true; 
+                                tBar = System.nanoTime();
+                                break;
+                        }
+                        
+                        //Erase the Power Up Object
+                        arrPowUps.remove(pow);
+                        //Update the Ireator
+                        itrP = arrPowUps.iterator();                    
+                    }
                 }
             }
         }
         
+        
+        //To desactivate the Insta Kill
         if (bKill && System.nanoTime() - tKill >= 15*1000000000)
         {
             this.disableInstaKill();
-            System.out.println("bKill deactivated");
             bKill = false;
-        }            
+        }       
+        
+        //To desactivate the Reduce Time 
         if (bTime && System.nanoTime() - tTime >= 15*1000000000)
         {
             this.resetTime();
-            System.out.println("Time deactivated");
             bTime = false;
         }
+        
+        //To desactivate the Bigger Bar
         if (bBar && System.nanoTime() - tBar >= 15*1000000000)
         {
             this.decreaseBar();
-            System.out.println("Bar deactivated");
             bBar = false;
         }
-        // check collision arrBricks versus Ball     
-//        if (Ball.intersects(player))
+        
+        // Check collision arrBricks versus Ball     
         if(Ball.getRectangle().intersects(player.getRectangle()))
         {            
             Ball.setSpeedY(Ball.getSpeedY() * -1);
             
-            if (Ball.getX() + Ball.getWidth()/2 > player.getX() + player.getWidth()/2)
+            if (Ball.getX() + Ball.getWidth()/2 > player.getX() 
+                    + player.getWidth()/2)
             {
-                Ball.setSpeedX(5 + ((Ball.getX() + (Ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);
+                Ball.setSpeedX(5 + ((Ball.getX() + (Ball.getWidth()/2)) - 
+                        (player.getX() + (player.getWidth()/2))) / 10);
             }
             else 
             {
-                Ball.setSpeedX(-5 + ((Ball.getX() + (Ball.getWidth()/2)) - (player.getX() + (player.getWidth()/2))) / 10);                
+                Ball.setSpeedX(-5 + ((Ball.getX() + (Ball.getWidth()/2)) - 
+                        (player.getX() + (player.getWidth()/2))) / 10);                
             }
         }
     }
@@ -378,20 +412,27 @@ public class Game implements Runnable
     public void reset()
     {
         player.setX(getWidth() / 2 - 100);
-        player.setY(getHeight() - 50);
-        Ball.setX(getWidth() / 2 - 20);
-        Ball.setY(getHeight() - 50 - 20);              
-        arrBricks = new ArrayList<Brick>();        
+        player.setY(getHeight() - 100);
+        Ball.setX(getWidth() / 2 - 25);
+        Ball.setY(player.getY() - 25);
+        
+        arrBricks = new ArrayList<Brick>(); 
+        
         int width_brick = getWidth() / 10 - 6;
         int height_brick = getHeight() / 3 / 5 - 10;
+        
         for (int i = 0; i < 10; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                Brick brick = new Brick(i * (width_brick + 3) + 15, j * (height_brick + 5) + 15, width_brick, height_brick, this);
+                Brick brick = new Brick(i * (width_brick + 3) + 15,
+                        j * (height_brick + 5) + 15, width_brick,
+                        height_brick, this);
+                
                 arrBricks.add(brick);
              }
          }
+        
         bStarted = false;
         bGameOver = false;
     }
@@ -441,20 +482,22 @@ public class Game implements Runnable
     {
         if (!isbRunning()) 
         {
-            bRunning = true;
+            setbRunning(true);
             thread = new Thread(this);
             thread.start();
         }
     }
     
     /**
-     * stopping the thread
+     * stop
+     * 
+     * Stopping the thread
      */
     public synchronized void stop() 
     {
         if (isbRunning()) 
         {
-            bRunning = false;
+            setbRunning(false);
             try 
             {
                 thread.join();

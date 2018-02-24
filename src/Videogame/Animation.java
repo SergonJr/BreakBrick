@@ -56,6 +56,16 @@ public class Animation {
     }
     
     /**
+     * getSpecificFrame
+     * 
+     * @param iFrame to know which sprite the game need
+     * @return the specific frame
+     */
+    public BufferedImage getSpecificFrame(int iFrame){
+        return bufFrames[iFrame];
+    }
+    
+    /**
      * tick
      * 
      * To update the animation to get the right index of the frame to paint
